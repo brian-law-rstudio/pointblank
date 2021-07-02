@@ -26,6 +26,7 @@ The pointblank package comes with a example dataset that nicely highlights the v
 ```{r, echo=FALSE}
 library(pointblank) # if needed: install.packages("pointblank")
 library(tidyverse) # if needed: install.packages("tidyverse")
+library(renv) # if needed: install.packages("renv")
 glimpse(small_table)
 ```
 

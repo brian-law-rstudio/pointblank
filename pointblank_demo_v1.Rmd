@@ -1,0 +1,97 @@
+---
+title: "~1 Pager: Data Validation with Pointblank"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(eval = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+# Why? 
+Have you ever received a dataset that had unexpected elements? More to the point, have you ever NOT received a dataset that had unexpected elements? `Pointblank` is an open source package we've made at RStudio to help you capture these unhappy surprises and prevent downstream trouble so that your work will be more reproducible and importantly, more robust to the kinds of real world data-landmines we all run into.
+
+# How? With Pointblank (and some cloak and dagger)
+To run data validation with Pointblank we first create an R object called an "agent" (think of a secret-agent-spy character). Second, we write down a set of questions we want to know about some dataset e.g. "is every value > 0". Third, we give those questions to the agent. Fourth, we have the agent "interrogate" the data by running through those questions. Fifth, the agent reports back on what they found. Given that framework we can customize and build out a great deal of detail and to customize for a particular project. 
+
+Let's run through some "hello world" examples to see this in action and then if it's something that can help you in your work, then you can can dig deeper [here](https://rich-iannone.github.io/pointblank/index.html).
+
+The pointblank package comes with a example dataset that nicely highlights the various features in a compact way so we'll use that.
+
+```{r, echo=FALSE}
+library(pointblank) # if needed: install.packages("pointblank")
+library(tidyverse) # if needed: install.packages("tidyverse")
+glimpse(small_table)
+```
+
+First, we create an agent with the `create_agent` function. I highly recommend the Jason Bourne films (and the first one in particular) and so I'm going to think of that person.
+```{r}
+agent <- 
+  create_agent(
+    tbl = small_table,
+    tbl_name = "small_table"
+  )
+```
+
+Let's print the object `agent` to see what we have.
+
+```{r, eval=TRUE}
+agent
+```
+
+The agent is ready to give us a report on what they found. Not surprisingly, right now it doesn't have much to say because it  hasn't interrogated the dataset we gave it. But this does give us some intuition about what the agent will report back later: a row for each question we want it to ask the dataset, and information about what it finds.
+
+Next, let's write down some questions we want the agent to ask the data. Note how we need to pass in an agent object at the start.
+```{r}
+agent_prepped <- agent %>% 
+  col_is_posix(vars(date_time)) %>%   # checking if the column "date_time" is actually of class "date_time"
+  col_vals_in_set(vars(f), set = c("low", "mid", "high")) %>% # check if column "f" contains only those 3 values
+  col_vals_lt(vars(a), value = 10) %>%  # check if column "a" has values all less than  10
+  col_vals_regex(vars(b), regex = "^[0-9]-[a-z]{3}-[0-9]{3}$") %>%  # check if column "b" has values that all match the regular expression defined here
+  col_vals_between(vars(d), left = 0, right = 5000)  # check if column "d" has values between 0 and 5000
+agent_prepped
+```
+
+Very nice! Now we can see how our agent is ready to interrogate the data and ask these 5 questions. Note how in the upper right corner of the report it says "No Interrogation" because we haven't asked the agent to do that yet.
+
+Now, let's have the agent actually interrogate the data and see what we get back. Before running this you may want to look at the small_table dataset above just to familiarize yourself and pretend you're the agent and see what you get, e.g. in column "d",  are all the values between 0 and 5,000 in your eyes?
+
+```{r}
+agent_done <- agent_prepped %>% interrogate()
+agent_done
+```
+Now we have some intelligence to look through thanks to our agent's interrogation. The first thing to notice is the colors down the side where green means that question passed completely and light green denotes how rule 5 had at least one value that failed to pass. The report contains additional information that's nicely explained in depth [here](https://rich-iannone.github.io/pointblank/articles/VALID-I.html). For today, let's just note one other element in the far right column labeled "EXT" which gives us an option to download a .csv file of the row that failed our question. We can download and open that .csv in an external tool, or more gracefully we can directly examine it in R as follows:
+```{r, eval=TRUE}
+get_data_extracts(agent_done, i = 5)
+```
+Busted! Good work agent, we found the row with suspect data in column "d".
+
+# When Things Aren't Black and White
+I believe that all great spy stories explore the gray areas, about what can you let go, and what's unforgivable. In a similar, if less dramatic fashion, the pointblank package allows you to tell the agent to keep track of how often a dataset fails the questions you write, and what proportion of failures is relatively OK versus should raise the alarm.
+
+We can use the `action_levels()` function to define these thresholds. We incorporate these action levels using the `actions` option early on in the create_agent() function. Also note how we've purposely changed the questions so they will fail more now.
+```{r}
+agent <- 
+  create_agent(
+    tbl = small_table,
+    tbl_name = "small_table",
+    actions = action_levels(warn_at = 0.1, stop_at = 0.2)  # NEW! We're defining the thresholds to Warn and Stop
+  ) %>%
+  col_is_posix(vars(date_time)) %>%
+  col_vals_in_set(vars(f), set = c("low", "mid")) %>%  # NEW! we've changed this question so it will fail more now
+  col_vals_lt(vars(a), value = 7) %>%   # NEW! we've changed this question so it will fail now
+  col_vals_regex(vars(b), regex = "^[0-9]-[a-w]{3}-[2-9]{3}$") %>%
+  col_vals_between(vars(d), left = 0, right = 4000) %>%  # NEW! we've changed this question so it will fail now
+  interrogate()
+agent
+```
+Looking ahead, wouldn't it be great if we could also tell the agent to do even more when they find failing questions? For example to automate things like: write the results to a log, or to create an email to send me? You can do both those things and more, and so please read more [here](https://rich-iannone.github.io/pointblank/articles/VALID-I.html), begin exploring and let us know what you end up building so that others can benefit from your knowledge.
+
+# FAQ's
+* Where can I learn more? [Here](https://rich-iannone.github.io/pointblank/articles/VALID-I.html)
+* Who can I talk to about this? brian.law@rstudio.com

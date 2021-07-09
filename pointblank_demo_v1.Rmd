@@ -14,12 +14,12 @@ knitr::opts_chunk$set(message = FALSE)
 ```
 
 # Why? 
-Have you ever received a dataset that had unexpected elements? More to the point, have you ever NOT received a dataset that had unexpected elements? `Pointblank` is an open source package we've made at RStudio to help you capture these unhappy surprises and prevent downstream trouble so that your work will be more reproducible and importantly, more robust to the kinds of real world data-landmines we all run into.
+Have you ever received a dataset that had unexpected elements? More to the point, have you ever NOT received a dataset that had unexpected elements? `Pointblank` is an open source package made by a colleague of mine at RStudio Rich Iannone, to help you capture these unhappy surprises and prevent downstream trouble so that your work will be more reproducible and importantly, more robust to the kinds of real world data-landmines we all run into.
 
 # How? With Pointblank (and some cloak and dagger)
-To run data validation with Pointblank we first create an R object called an "agent" (think of a secret-agent-spy character). Second, we write down a set of questions we want to know about some dataset e.g. "is every value > 0". Third, we give those questions to the agent. Fourth, we have the agent "interrogate" the data by running through those questions. Fifth, the agent reports back on what they found. Given that framework we can customize and build out a great deal of detail and to customize for a particular project. 
+To run data validation with Pointblank we first create an R object called an "agent" (think of a secret-agent-spy character). Second, we write down a set of questions we want to know about some dataset e.g. "is every value > 0". Third, we give those questions to the agent. Fourth, we have the agent "interrogate" the data by running through those questions. Fifth, the agent reports back on what they found. Given this general framework: build an agent, arm them with questions, then have then interrogate the data and report back; we can customize the details for a particular project. 
 
-Let's run through some "hello world" examples to see this in action and then if it's something that can help you in your work, then you can can dig deeper [here](https://rich-iannone.github.io/pointblank/index.html).
+Let's run through some "hello world" examples to see this in action and then if it's something that can help you in your work, afterwards you can can dig deeper [here](https://rich-iannone.github.io/pointblank/index.html).
 
 The pointblank package comes with a example dataset that nicely highlights the various features in a compact way so we'll use that.
 
@@ -45,7 +45,7 @@ Let's print the object `agent` to see what we have.
 agent
 ```
 
-The agent is ready to give us a report on what they found. Not surprisingly, right now it doesn't have much to say because it  hasn't interrogated the dataset we gave it. But this does give us some intuition about what the agent will report back later: a row for each question we want it to ask the dataset, and information about what it finds.
+The agent is ready to give us a report on what they found. Not surprisingly, right now it doesn't have much to say because it doesn't know what questions to ask, and it hasn't interrogated the dataset we gave it. But this does give us some intuition about what the agent will report back later: a row for each question we want it to ask the dataset, and information about what it finds.
 
 Next, let's write down some questions we want the agent to ask the data. Note how we need to pass in an agent object at the start.
 ```{r}
@@ -66,7 +66,7 @@ Now, let's have the agent actually interrogate the data and see what we get back
 agent_done <- agent_prepped %>% interrogate()
 agent_done
 ```
-Now we have some intelligence to look through thanks to our agent's interrogation. The first thing to notice is the colors down the side where green means that question passed completely and light green denotes how rule 5 had at least one value that failed to pass. The report contains additional information that's nicely explained in depth [here](https://rich-iannone.github.io/pointblank/articles/VALID-I.html). For today, let's just note one other element in the far right column labeled "EXT" which gives us an option to download a .csv file of the row that failed our question. We can download and open that .csv in an external tool, or more gracefully we can directly examine it in R as follows:
+Now we have some intelligence to look through thanks to our agent's interrogation. The first thing to notice is the colors down the side where green means that question passed completely and light green denotes how rule 5 had at least one value that failed to pass. The report contains additional information that's nicely explained in depth [here](https://rich-iannone.github.io/pointblank/articles/VALID-I.html). For today, let's just note one other element in the far right column labeled "EXT" which gives us an option to download a .csv file of the row that failed our question. We can download and open that .csv in an external tool, or more gracefully we can directly examine any questions that failed as follows:
 ```{r, eval=TRUE}
 get_data_extracts(agent_done, i = 5)
 ```
@@ -91,7 +91,7 @@ agent <-
   interrogate()
 agent
 ```
-Looking ahead, wouldn't it be great if we could also tell the agent to do even more when they find failing questions? For example to automate things like: write the results to a log, or to create an email to send me? You can do both those things and more, and so please read more [here](https://rich-iannone.github.io/pointblank/articles/VALID-I.html), begin exploring and let us know what you end up building so that others can benefit from your knowledge.
+Looking ahead, wouldn't it be great if we could also tell the agent to do even more when they find failing questions? For example to automate things like: write the results to a log, or to create an email to send me? You can do both those things and more, and so please read more [here](https://rich-iannone.github.io/pointblank/articles/VALID-I.html), to begin exploring and let us know what you end up building so that others can benefit from your knowledge.
 
 # FAQ's
 * Where can I learn more? [Here](https://rich-iannone.github.io/pointblank/articles/VALID-I.html)

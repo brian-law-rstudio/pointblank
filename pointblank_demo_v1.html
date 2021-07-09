@@ -1514,12 +1514,12 @@ div.tocify {
 
 <div id="why" class="section level1">
 <h1>Why?</h1>
-<p>Have you ever received a dataset that had unexpected elements? More to the point, have you ever NOT received a dataset that had unexpected elements? <code>Pointblank</code> is an open source package we’ve made at RStudio to help you capture these unhappy surprises and prevent downstream trouble so that your work will be more reproducible and importantly, more robust to the kinds of real world data-landmines we all run into.</p>
+<p>Have you ever received a dataset that had unexpected elements? More to the point, have you ever NOT received a dataset that had unexpected elements? <code>Pointblank</code> is an open source package made by a colleague of mine at RStudio Rich Iannone, to help you capture these unhappy surprises and prevent downstream trouble so that your work will be more reproducible and importantly, more robust to the kinds of real world data-landmines we all run into.</p>
 </div>
 <div id="how-with-pointblank-and-some-cloak-and-dagger" class="section level1">
 <h1>How? With Pointblank (and some cloak and dagger)</h1>
-<p>To run data validation with Pointblank we first create an R object called an “agent” (think of a secret-agent-spy character). Second, we write down a set of questions we want to know about some dataset e.g. “is every value &gt; 0”. Third, we give those questions to the agent. Fourth, we have the agent “interrogate” the data by running through those questions. Fifth, the agent reports back on what they found. Given that framework we can customize and build out a great deal of detail and to customize for a particular project.</p>
-<p>Let’s run through some “hello world” examples to see this in action and then if it’s something that can help you in your work, then you can can dig deeper <a href="https://rich-iannone.github.io/pointblank/index.html">here</a>.</p>
+<p>To run data validation with Pointblank we first create an R object called an “agent” (think of a secret-agent-spy character). Second, we write down a set of questions we want to know about some dataset e.g. “is every value &gt; 0”. Third, we give those questions to the agent. Fourth, we have the agent “interrogate” the data by running through those questions. Fifth, the agent reports back on what they found. Given this general framework: build an agent, arm them with questions, then have then interrogate the data and report back; we can customize the details for a particular project.</p>
+<p>Let’s run through some “hello world” examples to see this in action and then if it’s something that can help you in your work, afterwards you can can dig deeper <a href="https://rich-iannone.github.io/pointblank/index.html">here</a>.</p>
 <p>The pointblank package comes with a example dataset that nicely highlights the various features in a compact way so we’ll use that.</p>
 <pre><code>## Rows: 13
 ## Columns: 8
@@ -1919,7 +1919,7 @@ html {
 </th>
     </tr>
     <tr>
-      <th colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;"><span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2021-07-02|15:16:45]</span> <span style="background-color:#F1D35A;color:#222222;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">tibble</span>
+      <th colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;"><span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2021-07-09|15:49:04]</span> <span style="background-color:#F1D35A;color:#222222;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">tibble</span>
 <span style="background-color:none;color:#222222;padding:0.5em 0.5em;position:inherit;margin:5px 10px 5px -4px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">small_table</span>  <br><br></th>
     </tr>
   </thead>
@@ -1949,7 +1949,7 @@ html {
   </tfoot>
   
 </table></div>
-<p>The agent is ready to give us a report on what they found. Not surprisingly, right now it doesn’t have much to say because it hasn’t interrogated the dataset we gave it. But this does give us some intuition about what the agent will report back later: a row for each question we want it to ask the dataset, and information about what it finds.</p>
+<p>The agent is ready to give us a report on what they found. Not surprisingly, right now it doesn’t have much to say because it doesn’t know what questions to ask, and it hasn’t interrogated the dataset we gave it. But this does give us some intuition about what the agent will report back later: a row for each question we want it to ask the dataset, and information about what it finds.</p>
 <p>Next, let’s write down some questions we want the agent to ask the data. Note how we need to pass in an agent object at the start.</p>
 <pre class="r"><code>agent_prepped &lt;- agent %&gt;% 
   col_is_posix(vars(date_time)) %&gt;%   # checking if the column &quot;date_time&quot; is actually of class &quot;date_time&quot;
@@ -2338,7 +2338,7 @@ html {
 </th>
     </tr>
     <tr>
-      <th colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;"><span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2021-07-02|15:16:45]</span> <span style="background-color:#F1D35A;color:#222222;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">tibble</span>
+      <th colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;"><span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2021-07-09|15:49:04]</span> <span style="background-color:#F1D35A;color:#222222;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">tibble</span>
 <span style="background-color:none;color:#222222;padding:0.5em 0.5em;position:inherit;margin:5px 10px 5px -4px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">small_table</span>  <br><br></th>
     </tr>
   </thead>
@@ -2881,7 +2881,7 @@ html {
       <th colspan="14" class="gt_heading gt_title gt_font_normal" style="color: #444444; font-size: 28px; text-align: left; font-weight: 500;">Pointblank Validation</th>
     </tr>
     <tr>
-      <th colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;"><span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2021-07-02|15:16:45]</span></p>
+      <th colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;"><span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2021-07-09|15:49:04]</span></p>
 <div style="height:25px;"><span style="background-color:#F1D35A;color:#222222;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">tibble</span>
 <span style="background-color:none;color:#222222;padding:0.5em 0.5em;position:inherit;margin:5px 10px 5px -4px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">small_table</span></div>
 </th>
@@ -3070,12 +3070,12 @@ html {
   </tbody>
   <tfoot class="gt_sourcenotes">
     <tr>
-      <td class="gt_sourcenote" colspan="14"><span style="background-color: #FFF;color: #444;padding: 0.5em 0.5em;position: inherit;text-transform: uppercase;margin-left: 10px;border: solid 1px #999999;font-variant-numeric: tabular-nums;border-radius: 0;padding: 2px 10px 2px 10px;">2021-07-02 15:16:47 PDT</span><span style="background-color: #FFF;color: #444;padding: 0.5em 0.5em;position: inherit;margin: 5px 1px 5px 0;border: solid 1px #999999;border-left: none;font-variant-numeric: tabular-nums;border-radius: 0;padding: 2px 10px 2px 10px;">&lt; 1 s</span><span style="background-color: #FFF;color: #444;padding: 0.5em 0.5em;position: inherit;text-transform: uppercase;margin: 5px 1px 5px -1px;border: solid 1px #999999;border-left: none;border-radius: 0;padding: 2px 10px 2px 10px;">2021-07-02 15:16:47 PDT</span></td>
+      <td class="gt_sourcenote" colspan="14"><span style="background-color: #FFF;color: #444;padding: 0.5em 0.5em;position: inherit;text-transform: uppercase;margin-left: 10px;border: solid 1px #999999;font-variant-numeric: tabular-nums;border-radius: 0;padding: 2px 10px 2px 10px;">2021-07-09 15:49:06 PDT</span><span style="background-color: #FFF;color: #444;padding: 0.5em 0.5em;position: inherit;margin: 5px 1px 5px 0;border: solid 1px #999999;border-left: none;font-variant-numeric: tabular-nums;border-radius: 0;padding: 2px 10px 2px 10px;">&lt; 1 s</span><span style="background-color: #FFF;color: #444;padding: 0.5em 0.5em;position: inherit;text-transform: uppercase;margin: 5px 1px 5px -1px;border: solid 1px #999999;border-left: none;border-radius: 0;padding: 2px 10px 2px 10px;">2021-07-09 15:49:06 PDT</span></td>
     </tr>
   </tfoot>
   
 </table></div>
-<p>Now we have some intelligence to look through thanks to our agent’s interrogation. The first thing to notice is the colors down the side where green means that question passed completely and light green denotes how rule 5 had at least one value that failed to pass. The report contains additional information that’s nicely explained in depth <a href="https://rich-iannone.github.io/pointblank/articles/VALID-I.html">here</a>. For today, let’s just note one other element in the far right column labeled “EXT” which gives us an option to download a .csv file of the row that failed our question. We can download and open that .csv in an external tool, or more gracefully we can directly examine it in R as follows:</p>
+<p>Now we have some intelligence to look through thanks to our agent’s interrogation. The first thing to notice is the colors down the side where green means that question passed completely and light green denotes how rule 5 had at least one value that failed to pass. The report contains additional information that’s nicely explained in depth <a href="https://rich-iannone.github.io/pointblank/articles/VALID-I.html">here</a>. For today, let’s just note one other element in the far right column labeled “EXT” which gives us an option to download a .csv file of the row that failed our question. We can download and open that .csv in an external tool, or more gracefully we can directly examine any questions that failed as follows:</p>
 <pre class="r"><code>get_data_extracts(agent_done, i = 5)</code></pre>
 <pre><code>## # A tibble: 1 x 8
 ##   date_time           date           a b             c      d e     f    
@@ -3479,7 +3479,7 @@ html {
       <th colspan="14" class="gt_heading gt_title gt_font_normal" style="color: #444444; font-size: 28px; text-align: left; font-weight: 500;">Pointblank Validation</th>
     </tr>
     <tr>
-      <th colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;"><span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2021-07-02|15:16:48]</span></p>
+      <th colspan="14" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-size: 12px; text-align: left;"><span style="text-decoration-style:solid;text-decoration-color:#ADD8E6;text-decoration-line:underline;text-underline-position:under;color:#333333;font-variant-numeric:tabular-nums;padding-left:4px;margin-right:5px;padding-right:2px;">[2021-07-09|15:49:07]</span></p>
 <div style="height:25px;"><span style="background-color:#F1D35A;color:#222222;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">tibble</span>
 <span style="background-color:none;color:#222222;padding:0.5em 0.5em;position:inherit;margin:5px 10px 5px -4px;font-weight:bold;border:solid 1px #F1D35A;padding:2px 15px 2px 15px;font-size:smaller;">small_table</span><span style="background-color:#E5AB00;color:white;padding:0.5em 0.5em;position:inherit;text-transform:uppercase;margin:5px 0px 5px 5px;font-weight:bold;border:solid 1px #E5AB00;padding:2px 15px 2px 15px;font-size:smaller;">WARN</span>
 <span style="background-color:none;color:#333333;padding:0.5em 0.5em;position:inherit;margin:5px 0px 5px -4px;font-weight:bold;border:solid 1px #E5AB00;padding:2px 15px 2px 15px;font-size:smaller;">0.10</span>
@@ -3679,12 +3679,12 @@ html {
   </tbody>
   <tfoot class="gt_sourcenotes">
     <tr>
-      <td class="gt_sourcenote" colspan="14"><span style="background-color: #FFF;color: #444;padding: 0.5em 0.5em;position: inherit;text-transform: uppercase;margin-left: 10px;border: solid 1px #999999;font-variant-numeric: tabular-nums;border-radius: 0;padding: 2px 10px 2px 10px;">2021-07-02 15:16:48 PDT</span><span style="background-color: #FFF;color: #444;padding: 0.5em 0.5em;position: inherit;margin: 5px 1px 5px 0;border: solid 1px #999999;border-left: none;font-variant-numeric: tabular-nums;border-radius: 0;padding: 2px 10px 2px 10px;">&lt; 1 s</span><span style="background-color: #FFF;color: #444;padding: 0.5em 0.5em;position: inherit;text-transform: uppercase;margin: 5px 1px 5px -1px;border: solid 1px #999999;border-left: none;border-radius: 0;padding: 2px 10px 2px 10px;">2021-07-02 15:16:48 PDT</span></td>
+      <td class="gt_sourcenote" colspan="14"><span style="background-color: #FFF;color: #444;padding: 0.5em 0.5em;position: inherit;text-transform: uppercase;margin-left: 10px;border: solid 1px #999999;font-variant-numeric: tabular-nums;border-radius: 0;padding: 2px 10px 2px 10px;">2021-07-09 15:49:07 PDT</span><span style="background-color: #FFF;color: #444;padding: 0.5em 0.5em;position: inherit;margin: 5px 1px 5px 0;border: solid 1px #999999;border-left: none;font-variant-numeric: tabular-nums;border-radius: 0;padding: 2px 10px 2px 10px;">&lt; 1 s</span><span style="background-color: #FFF;color: #444;padding: 0.5em 0.5em;position: inherit;text-transform: uppercase;margin: 5px 1px 5px -1px;border: solid 1px #999999;border-left: none;border-radius: 0;padding: 2px 10px 2px 10px;">2021-07-09 15:49:07 PDT</span></td>
     </tr>
   </tfoot>
   
 </table></div>
-<p>Looking ahead, wouldn’t it be great if we could also tell the agent to do even more when they find failing questions? For example to automate things like: write the results to a log, or to create an email to send me? You can do both those things and more, and so please read more <a href="https://rich-iannone.github.io/pointblank/articles/VALID-I.html">here</a>, begin exploring and let us know what you end up building so that others can benefit from your knowledge.</p>
+<p>Looking ahead, wouldn’t it be great if we could also tell the agent to do even more when they find failing questions? For example to automate things like: write the results to a log, or to create an email to send me? You can do both those things and more, and so please read more <a href="https://rich-iannone.github.io/pointblank/articles/VALID-I.html">here</a>, to begin exploring and let us know what you end up building so that others can benefit from your knowledge.</p>
 </div>
 <div id="faqs" class="section level1">
 <h1>FAQ’s</h1>
